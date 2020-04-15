@@ -8,6 +8,13 @@ module.exports = {
     'plugin:react/recommended',
     'airbnb',
   ],
+  settings: {
+    "import/resolver": {
+      node: {
+        paths: ["src"]
+      }
+    }
+  },
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -24,5 +31,5 @@ module.exports = {
   ],
   rules: {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-  }
+  },
 };
