@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 const TextInput = ({ name, ...rest }) => {
   const inputRef = useRef(null);
   const {
-    fieldName, defaultValue = '', registerField,
+    fieldName, defaultValue = '', registerField, error,
   } = useField(name);
 
   useEffect(() => {
@@ -19,7 +19,11 @@ const TextInput = ({ name, ...rest }) => {
     });
   }, [fieldName, registerField]);
 
-  return <TextField inputRef={inputRef} defaultValue={defaultValue} {...rest} />;
+  return (
+    <>
+      <TextField inputRef={inputRef} defaultValue={defaultValue} helperText={error} error={error} {...rest} />
+    </>
+  );
 };
 
 TextInput.propTypes = {

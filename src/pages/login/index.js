@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import TextField from 'components/TextField';
 import { useAuth } from 'context/auth';
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
 // MUI
 import Paper from '@material-ui/core/Paper';
@@ -23,18 +24,37 @@ const useStyles = makeStyles({
   },
 });
 
+const validationSchema = Yup.object().shape({
+  usuario: Yup.string().required('Campo obrigatório'),
+  senha: Yup.string().required('Campo obrigatório'),
+});
+
 const LoginPage = () => {
   const { login } = useAuth();
   const classes = useStyles();
+  const formRef = useRef(null);
 
-  const handleSubmit = (data) => {
-    console.log(data);
+  const handleSubmit = async (data) => {
+    try {
+      formRef.current.setErrors({});
+
+      await validationSchema.validate(data, { abortEarly: false });
+      console.log(data);
+    } catch (err) {
+      const validationErrors = {};
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+        });
+        formRef.current.setErrors(validationErrors);
+      }
+    }
   };
 
   return (
     <div className={classes.wrapper}>
       <Paper elevation="3">
-        <Form className={classes.form} onSubmit={handleSubmit}>
+        <Form ref={formRef} className={classes.form} onSubmit={handleSubmit}>
           <Typography variant="h4" style={{ textAlign: 'center', marginBottom: '1rem' }}>Login</Typography>
           <TextField
             name="usuario"
