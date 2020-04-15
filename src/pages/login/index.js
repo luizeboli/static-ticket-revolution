@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import TextField from 'components/TextField';
 import { useAuth } from 'context/auth';
 import { Form } from '@unform/web';
@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+
+import Api from 'services/api';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -30,6 +32,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const [authError, setAuthError] = useState('');
   const { login } = useAuth();
   const classes = useStyles();
   const formRef = useRef(null);
@@ -39,7 +42,17 @@ const LoginPage = () => {
       formRef.current.setErrors({});
 
       await validationSchema.validate(data, { abortEarly: false });
-      console.log(data);
+
+      const auth = window.btoa(`${data.usuario}:${data.senha}`);
+
+      await Api.post('/Login', null, {
+        headers: {
+          Authorization: `Basic ${auth}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      login();
     } catch (err) {
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
@@ -47,13 +60,15 @@ const LoginPage = () => {
           validationErrors[error.path] = error.message;
         });
         formRef.current.setErrors(validationErrors);
+      } else {
+        setAuthError(err.response.data.Message);
       }
     }
   };
 
   return (
     <div className={classes.wrapper}>
-      <Paper elevation="3">
+      <Paper elevation={3}>
         <Form ref={formRef} className={classes.form} onSubmit={handleSubmit}>
           <Typography variant="h4" style={{ textAlign: 'center', marginBottom: '1rem' }}>Login</Typography>
           <TextField
@@ -72,6 +87,7 @@ const LoginPage = () => {
             variant="outlined"
           />
           <Button variant="contained" color="primary" type="submit">Authenticate</Button>
+          {authError && <span>{authError}</span>}
         </Form>
       </Paper>
     </div>
