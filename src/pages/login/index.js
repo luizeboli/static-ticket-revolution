@@ -10,8 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-import Api from 'services/api';
-
 const useStyles = makeStyles({
   wrapper: {
     display: 'flex',
@@ -42,17 +40,7 @@ const LoginPage = () => {
       formRef.current.setErrors({});
 
       await validationSchema.validate(data, { abortEarly: false });
-
-      const auth = window.btoa(`${data.usuario}:${data.senha}`);
-
-      await Api.post('/Login', null, {
-        headers: {
-          Authorization: `Basic ${auth}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      login();
+      await login(data.usuario, data.senha);
     } catch (err) {
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {

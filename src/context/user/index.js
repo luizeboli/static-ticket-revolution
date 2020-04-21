@@ -6,9 +6,9 @@ const UserContext = React.createContext();
 
 const UserProvider = (props) => {
   const {
-    isAuthenticated,
+    currentUser,
   } = useAuth();
-  return <UserContext.Provider value={isAuthenticated} {...props} />;
+  return <UserContext.Provider value={currentUser} {...props} />;
 };
 
 const useUser = () => {

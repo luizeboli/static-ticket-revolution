@@ -6,9 +6,9 @@ import { useUser } from 'context/user';
 import 'global.css';
 
 function App() {
-  const userAuthenticated = useUser();
+  const { Token } = useUser();
 
-  return userAuthenticated ? <AuthApp /> : <UnAuthApp />;
+  return Token ? <AuthApp /> : <UnAuthApp />;
 }
 
 export default App;

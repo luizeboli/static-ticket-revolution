@@ -1,18 +1,23 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
+import { doLogin } from 'services/api';
+
 const AuthContext = React.createContext();
 
 const AuthProvider = (props) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
 
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+  const login = (us, pw) => {
+    doLogin(us, pw).then((response) => setCurrentUser(response.data));
+  };
+
+  const logout = () => setCurrentUser({});
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated, login, logout,
+        currentUser, login, logout,
       }}
       {...props}
     />
