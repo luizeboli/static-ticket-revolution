@@ -8,8 +8,9 @@ const AuthContext = React.createContext();
 const AuthProvider = (props) => {
   const [currentUser, setCurrentUser] = React.useState({});
 
-  const login = (us, pw) => {
-    doLogin(us, pw).then((response) => setCurrentUser(response.data));
+  const login = async (us, pw) => {
+    const response = await doLogin(us, pw);
+    setCurrentUser(response.data);
   };
 
   const logout = () => setCurrentUser({});

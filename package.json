@@ -10,8 +10,8 @@
     "@unform/core": "^2.0.0",
     "@unform/web": "^2.0.0",
     "axios": "^0.19.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "0.0.0-experimental-e5d06e34b",
+    "react-dom": "0.0.0-experimental-e5d06e34b",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "yup": "^0.28.3"

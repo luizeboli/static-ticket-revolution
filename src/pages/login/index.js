@@ -5,9 +5,10 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 // MUI
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles({
@@ -31,12 +32,15 @@ const validationSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const [authError, setAuthError] = useState('');
-  const { login } = useAuth();
-  const classes = useStyles();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef(null);
+
+  const classes = useStyles();
+  const { login } = useAuth();
 
   const handleSubmit = async (data) => {
     try {
+      setIsSubmitting(true);
       formRef.current.setErrors({});
 
       await validationSchema.validate(data, { abortEarly: false });
@@ -51,6 +55,8 @@ const LoginPage = () => {
       } else {
         setAuthError(err.response.data.Message);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -74,7 +80,7 @@ const LoginPage = () => {
             style={{ marginBottom: '1.5rem' }}
             variant="outlined"
           />
-          <Button variant="contained" color="primary" type="submit">Authenticate</Button>
+          <Button disabled={isSubmitting} variant="contained" color="primary" type="submit">{isSubmitting ? <CircularProgress size={24} /> : 'Login'}</Button>
           {authError && <span>{authError}</span>}
         </Form>
       </Paper>

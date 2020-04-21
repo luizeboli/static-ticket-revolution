@@ -21,7 +21,7 @@ const TextInput = ({ name, ...rest }) => {
 
   return (
     <>
-      <TextField inputRef={inputRef} defaultValue={defaultValue} helperText={error} error={error} {...rest} />
+      <TextField inputRef={inputRef} defaultValue={defaultValue} helperText={error} error={!!error} {...rest} />
     </>
   );
 };

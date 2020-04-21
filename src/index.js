@@ -3,15 +3,11 @@ import ReactDOM from 'react-dom';
 import App from 'containers/app';
 import AppProviders from 'context';
 
-ReactDOM.render(
+const rootElement = document.getElementById('root');
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <AppProviders>
       <App />
     </AppProviders>
   </React.StrictMode>,
-  document.getElementById('root'),
 );
-
-if (module.hot) {
-  module.hot.accept();
-}
