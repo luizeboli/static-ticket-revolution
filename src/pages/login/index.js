@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     padding: '1rem',
+    minWidth: '280px',
   },
 });
 
@@ -81,7 +82,7 @@ const LoginPage = () => {
             variant="outlined"
           />
           <Button disabled={isSubmitting} variant="contained" color="primary" type="submit">{isSubmitting ? <CircularProgress size={24} /> : 'Login'}</Button>
-          {authError && <span>{authError}</span>}
+          {authError && <span style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>{authError}</span>}
         </Form>
       </Paper>
     </div>
