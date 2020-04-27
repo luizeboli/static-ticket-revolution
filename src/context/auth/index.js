@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { doLogin } from 'services/api';
 
@@ -8,6 +9,7 @@ const AuthContext = React.createContext();
 const AuthProvider = (props) => {
   const [currentUser, setCurrentUser] = React.useState({});
   const [loading, setLoading] = React.useState(true);
+  const history = useHistory();
 
   React.useEffect(() => {
     try {
@@ -26,7 +28,11 @@ const AuthProvider = (props) => {
     localStorage.setItem('hi', JSON.stringify(response));
   };
 
-  const logout = () => { localStorage.removeItem('hi'); return setCurrentUser({}); };
+  const logout = () => {
+    localStorage.removeItem('hi');
+    setCurrentUser({});
+    return history.push('/');
+  };
 
   return (
     !loading && (
