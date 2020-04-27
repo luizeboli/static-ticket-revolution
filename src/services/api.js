@@ -1,37 +1,10 @@
-import axios from 'axios';
-
-const api = axios.create({ baseURL: 'https://app.hiplatform.com/agent/ticket/1.0', headers: { Authorization: `DT-Fenix-Token ${localStorage.getItem('Token')}` } });
-
-const wrapPromise = (promise) => {
-  let status = 'pending';
-  let result;
-  const suspender = promise.then(
-    (r) => {
-      status = 'success';
-      result = r;
-    },
-    (e) => {
-      status = 'error';
-      result = e;
-    },
-  );
-  return {
-    read() {
-      if (status === 'pending') {
-        throw suspender;
-      } else if (status === 'error') {
-        throw result;
-      } else if (status === 'success') {
-        return result;
-      }
-    },
-  };
-};
+import client, { wrapPromise } from './client';
 
 const doLogin = (us, pw) => {
   const auth = window.btoa(`${us}:${pw}`);
 
-  return api.post('/Login', null, {
+  return client('/Login', {
+    method: 'POST',
     headers: {
       Authorization: `Basic ${auth}`,
       'Content-Type': 'application/json',
@@ -39,9 +12,6 @@ const doLogin = (us, pw) => {
   });
 };
 
-// const getTickets = () => wrapPromise(api.get('/tickets/inbox/createdate?count=150&skip=0').then((res) => res.data));
-const getTickets = () => wrapPromise(new Promise((resolve, reject) => {
-  setTimeout(resolve, 3000);
-}));
+const getTickets = () => wrapPromise(client('/tickets/inbox/createdate?count=150&skip=0').then((res) => res.data));
 
 export { doLogin, getTickets };

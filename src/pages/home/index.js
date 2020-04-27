@@ -72,7 +72,7 @@ const HomePage = () => {
         <button type="button" onClick={() => setCount(count + 1)}>Render Test</button>
       </nav>
       <section className={classes.content}>
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<h1>Loading suspense...</h1>}>
           <TicketList resource={resource} />
         </Suspense>
       </section>

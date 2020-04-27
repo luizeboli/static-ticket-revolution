@@ -10,8 +10,8 @@ const AuthProvider = (props) => {
 
   const login = async (us, pw) => {
     const response = await doLogin(us, pw);
-    setCurrentUser(response.data);
-    localStorage.setItem('Token', response.data.Token);
+    setCurrentUser(response);
+    localStorage.setItem('Token', response.Token);
   };
 
   const logout = () => setCurrentUser({});

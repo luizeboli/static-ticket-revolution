@@ -54,7 +54,7 @@ const LoginPage = () => {
         });
         formRef.current.setErrors(validationErrors);
       } else {
-        setAuthError(err.response.data.Message);
+        setAuthError(err.Message);
       }
     } finally {
       setIsSubmitting(false);
