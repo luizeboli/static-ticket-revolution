@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-const localStorageKey = 'Token';
+const localStorageKey = 'hi';
 const apiUrl = 'https://app.hiplatform.com/agent/ticket/1.0';
 
 function wrapPromise(promise) {
@@ -33,38 +33,42 @@ function logout() {
 }
 
 function client(endpoint, { method, body, ...customConfig } = {}) {
-  const token = window.localStorage.getItem(localStorageKey);
-  const headers = { 'content-type': 'application/json' };
-  if (token) {
-    headers.Authorization = `DT-Fenix-Token ${token}`;
-  }
-  const config = {
-    method,
-    ...customConfig,
-    headers: {
-      ...headers,
-      ...customConfig.headers,
-    },
-  };
-  if (body) {
-    config.body = JSON.stringify(body);
-  }
+  try {
+    const { Token } = JSON.parse(localStorage.getItem(localStorageKey)) || {};
+    const headers = { 'content-type': 'application/json' };
+    if (Token) {
+      headers.Authorization = `DT-Fenix-Token ${Token}`;
+    }
+    const config = {
+      method,
+      ...customConfig,
+      headers: {
+        ...headers,
+        ...customConfig.headers,
+      },
+    };
+    if (body) {
+      config.body = JSON.stringify(body);
+    }
 
-  return (
-    window
-      .fetch(`${apiUrl}/${endpoint}`, config)
-      .then(async (response) => {
-        if (response.status === 401) {
-          logout();
-          window.location.assign(window.location);
-          return;
-        }
-        const data = await response.json();
-        if (response.ok) {
-          return data;
-        }
-        return Promise.reject(data);
-      }));
+    return (
+      window
+        .fetch(`${apiUrl}${endpoint}`, config)
+        .then(async (response) => {
+          if (response.status === 401) {
+            logout();
+            window.location.assign(window.location);
+            return;
+          }
+          const data = await response.json();
+          if (response.ok) {
+            return data;
+          }
+          return Promise.reject(data);
+        }));
+  } catch (error) {
+    logout();
+  }
 }
 
 export { wrapPromise };

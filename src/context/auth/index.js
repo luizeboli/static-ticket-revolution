@@ -7,22 +7,36 @@ const AuthContext = React.createContext();
 
 const AuthProvider = (props) => {
   const [currentUser, setCurrentUser] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    try {
+      const ls = JSON.parse(localStorage.getItem('hi'));
+      if (ls) { setCurrentUser(ls); }
+    } catch (error) {
+      localStorage.clear();
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const login = async (us, pw) => {
     const response = await doLogin(us, pw);
     setCurrentUser(response);
-    localStorage.setItem('Token', response.Token);
+    localStorage.setItem('hi', JSON.stringify(response));
   };
 
-  const logout = () => setCurrentUser({});
+  const logout = () => { localStorage.removeItem('hi'); return setCurrentUser({}); };
 
   return (
+    !loading && (
     <AuthContext.Provider
       value={{
         currentUser, login, logout,
       }}
       {...props}
     />
+    )
   );
 };
 
