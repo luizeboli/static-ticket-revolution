@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useState, Suspense,
+  useCallback, useState, Suspense,
 } from 'react';
 import { useAuth } from 'context/auth';
 
@@ -49,14 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = () => {
-  const [resource, setResource] = useState(null);
+  const [resource, setResource] = useState(getTickets);
   const [count, setCount] = useState(0);
   const { logout } = useAuth();
   const classes = useStyles();
-
-  useEffect(() => {
-    setResource(getTickets);
-  }, []);
 
   const loadTickets = useCallback(() => setResource(getTickets), []);
 
