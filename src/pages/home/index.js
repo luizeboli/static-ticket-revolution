@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
 const HomePage = () => {
   const [resource, setResource] = useState(getTickets);
   const [count, setCount] = useState(0);
-  const { logout } = useAuth();
   const classes = useStyles();
+  const { logout } = useAuth();
 
   const loadTickets = useCallback(() => setResource(getTickets), []);
 

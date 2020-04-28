@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from 'containers/app';
+import App from 'containers/App';
 import AppProviders from 'context';
 
 const rootElement = document.getElementById('root');
