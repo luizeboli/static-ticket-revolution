@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 const localStorageKey = 'hi';
-const apiUrl = 'https://app.hiplatform.com/agent/ticket/1.0';
+const apiUrl = 'https://hi-cors.herokuapp.com/https://app.hiplatform.com/agent/ticket/1.0';
 
 function wrapPromise(promise) {
   let status = 'pending';
