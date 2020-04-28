@@ -9,7 +9,7 @@ import 'global.css';
 function App() {
   const { Token } = useUser();
 
-  return Token ? <AuthApp /> : <UnAuthApp />;
+  return Token ? <AuthApp /> : <AuthApp />;
 }
 
 export default App;

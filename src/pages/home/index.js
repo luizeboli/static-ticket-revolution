@@ -1,79 +1,22 @@
-import React, {
-  useCallback, useState, Suspense,
-} from 'react';
-import { useAuth } from 'context/auth';
+import React, { Suspense, memo } from 'react';
 
-
-import Button from 'components/Button';
+import Layout from 'containers/Layout';
 import TicketList from 'components/TicketList';
 
-import makeStyles from '@material-ui/core/styles/makeStyles';
-
-import { getTickets } from 'services/api';
-
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    display: 'grid',
-    gridTemplateAreas: `
-      "header header"
-      "sidebar main"`,
-    gridTemplateColumns: '200px auto',
-    gridTemplateRows: '64px auto',
-    gridRowGap: '0.5rem',
-    height: '100%',
-
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateColumns: '0 auto',
-    },
-  },
-  header: {
-    gridArea: 'header',
-    backgroundColor: '#2B3640',
-    borderBottom: '1px solid #354350',
-    padding: '0 1rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  sidebar: {
-    gridArea: 'sidebar',
-
-    [theme.breakpoints.down('xs')]: {
-      display: 'none',
-    },
-  },
-  content: {
-    gridArea: 'main',
-    overflowY: 'scroll',
-  },
-}));
+import { useTicketList } from 'context/ticketList';
 
 const HomePage = () => {
-  const [resource, setResource] = useState(getTickets);
-  const [count, setCount] = useState(0);
-  const classes = useStyles();
-  const { logout } = useAuth();
+  const { loadTicketList } = useTicketList();
 
-  const loadTickets = useCallback(() => setResource(getTickets), []);
+  React.useEffect(() => console.log('HomePage rendered'));
 
   return (
-    <main className={classes.wrapper}>
-      <header className={classes.header}>
-        Header
-        <Button variant="contained" color="primary" onClick={logout}>Logout</Button>
-      </header>
-      <nav className={classes.sidebar}>
-        <Button variant="contained" color="primary" onClick={loadTickets}>Get Tickets</Button>
-        <h2>{count}</h2>
-        <button type="button" onClick={() => setCount(count + 1)}>Render Test</button>
-      </nav>
-      <section className={classes.content}>
-        <Suspense fallback={<h1>Loading suspense...</h1>}>
-          <TicketList resource={resource} />
-        </Suspense>
-      </section>
-    </main>
+    <Layout>
+      <Suspense fallback={<h1>Loading suspense...</h1>}>
+        <TicketList resource={loadTicketList} />
+      </Suspense>
+    </Layout>
   );
 };
 
-export default HomePage;
+export default memo(HomePage);
