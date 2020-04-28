@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 const TicketList = ({ resource }) => {
-  const items = resource && resource.read();
+  const items = resource.read();
 
   return (
     <div>
