@@ -12,6 +12,8 @@ const doLogin = (us, pw) => {
   });
 };
 
-const getTickets = () => wrapPromise(client('/tickets/inbox/createdate?count=150&skip=0').then((res) => res));
+const getTickets = () => ({
+  fetch: wrapPromise(client('/tickets/inbox/createdate?count=150&skip=0')),
+});
 
 export { doLogin, getTickets };

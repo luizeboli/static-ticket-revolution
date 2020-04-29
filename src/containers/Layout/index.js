@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { memo } from 'react';
 
 import Button from 'components/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import { useAuth } from 'context/auth';
 import { useTicketList } from 'context/ticketList';
+import { getTickets } from 'services/api';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -45,10 +46,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Layout = ({ children }) => {
-  const [count, setCount] = useState(0);
   const classes = useStyles();
   const { logout } = useAuth();
-  const { updateTicketList } = useTicketList();
+  const [state, dispatch] = useTicketList();
+
+  React.useEffect(() => console.log('Layout rendered'));
 
   return (
     <main className={classes.wrapper}>
@@ -57,9 +59,9 @@ const Layout = ({ children }) => {
         <Button variant="contained" color="primary" onClick={logout}>Logout</Button>
       </header>
       <nav className={classes.sidebar}>
-        <Button variant="contained" color="primary" onClick={updateTicketList}>Get Tickets</Button>
-        <h2>{count}</h2>
-        <button type="button" onClick={() => setCount(count + 1)}>Render Test</button>
+        <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'UPDATE_TICKET_LIST', payload: getTickets() })}>Get Tickets</Button>
+        <h2>{state.counter}</h2>
+        <button type="button" onClick={() => dispatch({ type: 'UPDATE_COUNTER' })}>Render Test</button>
       </nav>
       <section className={classes.content}>
         {children}
@@ -68,4 +70,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default memo(Layout);

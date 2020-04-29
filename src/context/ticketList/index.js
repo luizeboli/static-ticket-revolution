@@ -1,23 +1,42 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
-import { getTickets } from 'services/api';
+import React, { useReducer } from 'react';
+import { createContainer } from 'react-tracked';
 
-const TicketListContext = React.createContext();
+/**
+ * ------------------------------------------------------------------------------------------------>
+ * REDUCER
+ * ------------------------------------------------------------------------------------------------>
+ */
 
-const TicketListProvider = (props) => {
-  const [loadTicketList, setLoadTicketList] = useState(getTickets);
-
-  const updateTicketList = () => setLoadTicketList(getTickets);
-
-  return <TicketListContext.Provider value={{ loadTicketList, updateTicketList }} {...props} />;
+const initialState = {
+  ticketList: null,
+  counter: 0,
 };
 
-const useTicketList = () => {
-  const context = React.useContext(TicketListContext);
-  if (context === undefined) {
-    throw new Error('useTicketList must be used within a TicketListProvider');
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'UPDATE_TICKET_LIST':
+      return { ...state, ticketList: payload };
+    case 'UPDATE_COUNTER':
+      return { ...state, counter: state.counter + 1 };
+    default:
+      return state;
   }
-  return context;
 };
+
+/**
+ * ------------------------------------------------------------------------------------------------>
+ * CONTAINER
+ * ------------------------------------------------------------------------------------------------>
+ */
+
+const useValue = () => useReducer(reducer, initialState);
+const TicketListContainer = createContainer(useValue);
+
+const TicketListProvider = (props) => (
+  <TicketListContainer.Provider {...props} />
+);
+
+const useTicketList = () => TicketListContainer.useTracked();
 
 export { TicketListProvider, useTicketList };

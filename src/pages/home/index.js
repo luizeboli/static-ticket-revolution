@@ -4,16 +4,19 @@ import Layout from 'containers/Layout';
 import TicketList from 'components/TicketList';
 
 import { useTicketList } from 'context/ticketList';
+import { getTickets } from 'services/api';
 
 const HomePage = () => {
-  const { loadTicketList } = useTicketList();
+  const [state, dispatch] = useTicketList();
 
   React.useEffect(() => console.log('HomePage rendered'));
+
+  React.useEffect(() => dispatch({ type: 'UPDATE_TICKET_LIST', payload: getTickets() }), []);
 
   return (
     <Layout>
       <Suspense fallback={<h1>Loading suspense...</h1>}>
-        <TicketList resource={loadTicketList} />
+        <TicketList resource={state.ticketList} />
       </Suspense>
     </Layout>
   );
