@@ -11,7 +11,7 @@ const HomePage = () => {
 
   React.useEffect(() => console.log('HomePage rendered'));
 
-  React.useEffect(() => dispatch({ type: 'UPDATE_TICKET_LIST', payload: getTickets() }), []);
+  // React.useEffect(() => dispatch({ type: 'UPDATE_TICKET_LIST', payload: getTickets() }), []);
 
   return (
     <Layout>

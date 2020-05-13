@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     gridRowGap: '0.5rem',
     height: '100%',
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: '0 auto',
     },
   },
@@ -34,13 +34,15 @@ const useStyles = makeStyles((theme) => ({
   sidebar: {
     gridArea: 'sidebar',
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
   },
   content: {
     gridArea: 'main',
-    overflowY: 'scroll',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
   },
 }));
 
@@ -63,9 +65,9 @@ const Layout = ({ children }) => {
         <h2>{state.counter}</h2>
         <button type="button" onClick={() => dispatch({ type: 'UPDATE_COUNTER' })}>Render Test</button>
       </nav>
-      <section className={classes.content}>
+      <div className={classes.content} onScroll={(e) => e.preventDefault()}>
         {children}
-      </section>
+      </div>
     </main>
   );
 };
