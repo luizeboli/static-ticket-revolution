@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, memo, useMemo,
+  useState, useEffect, memo, useMemo, useRef,
 } from 'react';
 import VirtualizedList from 'components/VirtualizedList';
 
@@ -20,14 +20,20 @@ const getItemsToRender = (index, amountToRender) => {
 
 const renderItem = (item) => <div key={item.index} style={{ height: 25 }}>{item.text}</div>;
 
-const TicketList = ({ resource }) => (
-  <VirtualizedList
-    totalItems={arrayz.length}
-    itemHeight={25}
-    amount={15}
-    overscan={5}
-    getItemsToRender={getItemsToRender}
-    renderItem={renderItem}
-  />
-);
+const TicketList = ({ resource }) => {
+  const containerRef = useRef(null);
+
+  return (
+    <div id="" ref={containerRef} style={{ height: '100%' }}>
+      <VirtualizedList
+        totalItems={arrayz.length}
+        itemHeight={25}
+        overscan={5}
+        getItemsToRender={getItemsToRender}
+        renderItem={renderItem}
+        parentRef={containerRef}
+      />
+    </div>
+  );
+};
 export default memo(TicketList);
