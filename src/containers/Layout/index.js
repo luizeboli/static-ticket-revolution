@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebar: {
     gridArea: 'sidebar',
+    paddingLeft: '0.5rem',
 
     [theme.breakpoints.down('sm')]: {
       display: 'none',
