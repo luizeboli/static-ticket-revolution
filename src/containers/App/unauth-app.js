@@ -1,13 +1,22 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {
+  Route, Switch, useLocation, useHistory,
+} from 'react-router-dom';
 
-import ErrorPage from 'pages/error';
 import LoginPage from 'pages/login';
 
-const UnAuthApp = () => (
-  <Switch>
-    <Route exact path="/" component={LoginPage} />
-    <Route component={ErrorPage} />
-  </Switch>
-);
+const UnAuthApp = () => {
+  const history = useHistory();
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.pathname !== '/') { history.push(`/?redirectTo=${location.pathname.split('/')[1]}`); }
+  }, []);
+
+  return (
+    <Switch>
+      <Route component={LoginPage} />
+    </Switch>
+  );
+};
 export default UnAuthApp;
