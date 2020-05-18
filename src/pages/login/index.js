@@ -72,6 +72,7 @@ const LoginPage = () => {
             placeholder="Digite seu usuário"
             style={{ marginBottom: '1rem' }}
             variant="outlined"
+            autoComplete="username"
           />
           <TextField
             name="senha"
@@ -80,6 +81,7 @@ const LoginPage = () => {
             type="password"
             style={{ marginBottom: '1.5rem' }}
             variant="outlined"
+            autoComplete="current-password"
           />
           <Button disabled={isSubmitting} variant="contained" color="primary" type="submit">{isSubmitting ? <CircularProgress size={24} /> : 'Login'}</Button>
           {authError && <span style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>{authError}</span>}
