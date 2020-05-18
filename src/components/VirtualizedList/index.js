@@ -10,6 +10,7 @@ const VirtualizedList = ({
   renderItem,
   totalItems,
   parentRef,
+  array,
 }) => {
   const containerRef = useRef();
   const [state, dispatch] = useReducer(
@@ -34,7 +35,7 @@ const VirtualizedList = ({
 
     if (amountToRender === state.amountToRender && state.previousIndex === startIndex) return;
 
-    const itemsToRender = getItemsToRender(startIndex, amountToRender);
+    const itemsToRender = getItemsToRender(startIndex, amountToRender, array);
     const topContainerHeight = Math.max(startIndex * itemHeight, 0);
     const bottomContainerHeight = Math.max(
       innerHeight - topContainerHeight - amountToRender * itemHeight,
