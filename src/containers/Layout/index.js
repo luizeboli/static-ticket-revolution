@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
-
-import Button from 'components/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { Link } from 'react-router-dom';
+import { queryCache } from 'react-query';
 
+import HiLogo from 'assets/HiLogo.svg';
+import Button from 'components/Button';
 import { useAuth } from 'context/auth';
 import { useTicketList } from 'context/ticketList';
-import { getTickets } from 'services/api';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -58,11 +59,13 @@ const Layout = ({ children }) => {
   return (
     <main className={classes.wrapper}>
       <header className={classes.header}>
-        Header
+        <Link to="/home">
+          <img src={HiLogo} alt="Hi Logo" />
+        </Link>
         <Button variant="contained" color="primary" onClick={logout}>Logout</Button>
       </header>
       <nav className={classes.sidebar}>
-        <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'UPDATE_TICKET_LIST', payload: getTickets() })}>Get Tickets</Button>
+        <Button variant="contained" color="primary" onClick={() => queryCache.refetchQueries('ticket-list')} loading={state.ticketList.loading}>Get Tickets</Button>
         <h2>{state.counter}</h2>
         <button type="button" onClick={() => dispatch({ type: 'UPDATE_COUNTER' })}>Render Test</button>
       </nav>
