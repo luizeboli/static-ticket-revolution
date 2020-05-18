@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 
 const ButtonTransition = ({
-  children, onClick, disabled, ...rest
+  children, onClick, disabled, loading, ...rest
 }) => {
   const [startTransition, isPending] = useTransition({
     timeoutMs: 5000,
@@ -23,10 +23,10 @@ const ButtonTransition = ({
     <>
       <Button
         onClick={handleClick}
-        disabled={disableBtn}
+        disabled={disableBtn || loading}
         {...rest}
       >
-        {isPending ? <CircularProgress size={24} /> : children}
+        {isPending || loading ? <CircularProgress size={24} /> : children}
       </Button>
     </>
   );
