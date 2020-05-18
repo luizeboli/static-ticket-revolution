@@ -5,9 +5,10 @@ import { ReactQueryConfigProvider } from 'react-query';
 import { TicketListProvider } from 'context/ticketList';
 import ErrorPage from 'pages/error';
 import HomePage from 'pages/home';
+import TicketPage from 'pages/ticket';
 
 const queryCfg = {
-  suspense: true,
+  suspense: false,
   refetchAllOnWindowFocus: false,
 };
 
@@ -20,6 +21,7 @@ const AuthApp = () => (
           <Redirect to="/home" />
         </Route>
         <Route exact path="/home" component={HomePage} />
+        <Route exact path="/ticket/:id" component={TicketPage} />
         <Route component={ErrorPage} />
       </Switch>
     </ReactQueryConfigProvider>
