@@ -4,7 +4,7 @@ import { useUser } from 'context/user';
 import AuthApp from './auth-app';
 import UnAuthApp from './unauth-app';
 
-import 'global.css';
+import 'styles/global.css';
 
 function App() {
   const { Token } = useUser();
