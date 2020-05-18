@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "@unform/core": "^2.0.0",
     "@unform/web": "^2.0.0",
+    "@welldone-software/why-did-you-render": "^4.2.1",
     "lodash.debounce": "^4.0.8",
     "react": "0.0.0-experimental-e5d06e34b",
     "react-dom": "0.0.0-experimental-e5d06e34b",
