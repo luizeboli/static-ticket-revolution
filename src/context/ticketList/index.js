@@ -9,14 +9,18 @@ import { createContainer } from 'react-tracked';
  */
 
 const initialState = {
-  ticketList: null,
+  ticketList: {
+    loading: false,
+  },
   counter: 0,
 };
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
-    case 'UPDATE_TICKET_LIST':
-      return { ...state, ticketList: payload };
+    case 'TICKET_LIST_REQUEST':
+      return { ...state, ticketList: { loading: true } };
+    case 'TICKET_LIST_SUCCESS':
+      return { ...state, ticketList: { loading: false } };
     case 'UPDATE_COUNTER':
       return { ...state, counter: state.counter + 1 };
     default:
@@ -37,6 +41,13 @@ const TicketListProvider = (props) => (
   <TicketListContainer.Provider {...props} />
 );
 
-const useTicketList = () => TicketListContainer.useTracked();
+const useTicketList = () => {
+  const [state, dispatch] = TicketListContainer.useTracked();
+
+  return [state, (args) => {
+    console.log(`%c Dispatching action: ${args.type} `, 'background-color: green; color: #FFF; border-radius: 50px');
+    dispatch(args);
+  }];
+};
 
 export { TicketListProvider, useTicketList };
