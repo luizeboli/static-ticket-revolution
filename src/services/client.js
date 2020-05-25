@@ -2,6 +2,14 @@
 const localStorageKey = 'hi';
 const apiUrl = 'https://hi-cors.herokuapp.com/https://app.hiplatform.com/agent/ticket/1.0';
 
+async function tryParse(response) {
+  try {
+    return await response.json();
+  } catch (e) {
+    return response.body;
+  }
+}
+
 function wrapPromise(promise) {
   let status = 'pending';
   let result;
@@ -60,7 +68,7 @@ function client(endpoint, { method, body, ...customConfig } = {}) {
             window.location.assign(window.location);
             return;
           }
-          const data = await response.json();
+          const data = await tryParse(response);
           if (response.ok) {
             return data;
           }

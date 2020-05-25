@@ -5,15 +5,12 @@ import { MuiThemeProvider } from '@material-ui/core';
 
 import dark from 'styles/dark';
 import { AuthProvider } from './auth';
-import { UserProvider } from './user';
 
 const AppProviders = ({ children }) => (
   <MuiThemeProvider theme={dark}>
     <Router>
       <AuthProvider>
-        <UserProvider>
-          {children}
-        </UserProvider>
+        {children}
       </AuthProvider>
     </Router>
   </MuiThemeProvider>

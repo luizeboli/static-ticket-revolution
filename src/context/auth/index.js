@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { doLogin } from 'services/api';
+import client from 'services/client';
 
 const AuthContext = React.createContext();
 
@@ -11,15 +12,22 @@ const AuthProvider = (props) => {
   const [loading, setLoading] = React.useState(true);
   const history = useHistory();
 
-  React.useEffect(() => {
-    try {
-      const ls = JSON.parse(localStorage.getItem('hi'));
-      if (ls) { setCurrentUser(ls); }
-    } catch (error) {
-      localStorage.clear();
-    } finally {
-      setLoading(false);
-    }
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const ls = JSON.parse(localStorage.getItem('hi'));
+        if (ls) {
+          await client('/check-token');
+          setCurrentUser(ls);
+        }
+      } catch (error) {
+        localStorage.clear();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkToken();
   }, []);
 
   const login = async (us, pw) => {

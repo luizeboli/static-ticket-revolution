@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUser } from 'context/user';
+import { useAuth } from 'context/auth';
 
 import AuthApp from './auth-app';
 import UnAuthApp from './unauth-app';
@@ -7,7 +7,7 @@ import UnAuthApp from './unauth-app';
 import 'styles/global.css';
 
 function App() {
-  const { Token } = useUser();
+  const { currentUser: { Token } } = useAuth();
 
   return Token ? <AuthApp /> : <UnAuthApp />;
 }
