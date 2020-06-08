@@ -15,4 +15,6 @@ const HomePage = () => {
   );
 };
 
+HomePage.whyDidYouRender = true;
+
 export default memo(HomePage);

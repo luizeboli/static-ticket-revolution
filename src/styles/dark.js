@@ -23,5 +23,17 @@ export default createMuiTheme({
         marginRight: '1rem',
       },
     },
+    MuiTypography: {
+      body2: {
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+      },
+    },
+    MuiDivider: {
+      root: {
+        backgroundColor: '#354350',
+      },
+    },
   },
 });
