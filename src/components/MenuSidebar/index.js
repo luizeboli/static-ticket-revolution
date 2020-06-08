@@ -18,8 +18,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import ReplayIcon from '@material-ui/icons/Replay';
 import DeleteIcon from '@material-ui/icons/DeleteOutlined';
 
-
 import Button from 'components/Button';
+import { useModal } from 'context/modal';
 
 const useStyles = makeStyles((theme) => ({
   closed: {},
@@ -133,6 +133,7 @@ const MenuSidebar = ({ open }) => {
   const location = useLocation();
   const navRef = createRef(null);
   const classes = useStyles();
+  const { setModal } = useModal();
 
   React.useEffect(() => console.log('Menu rendered'));
 
@@ -196,7 +197,7 @@ const MenuSidebar = ({ open }) => {
           className={cx(classes.newTckBtn, { [classes.closed]: !open && !internalOpen })}
           variant="contained"
           color="primary"
-          onClick={() => alert('Modal')}
+          onClick={() => setModal('NewTck')}
         >
           <AddCircleIcon style={{ color: '#FFF' }} />
           {(open || internalOpen) && (
@@ -216,5 +217,7 @@ const MenuSidebar = ({ open }) => {
     </nav>
   );
 };
+
+MenuSidebar.whyDidYouRender = false;
 
 export default memo(MenuSidebar);
