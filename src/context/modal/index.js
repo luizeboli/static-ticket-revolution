@@ -8,17 +8,24 @@ const modals = {
 };
 
 const ModalProvider = ({ children }) => {
-  const [modal, setModal] = useState(null);
+  const [modal, setModalComponent] = useState(null);
+  const [open, setOpen] = useState(false);
+
   const unSetModal = useCallback(() => {
-    setModal();
-  }, [setModal]);
+    setOpen(false);
+  }, [setOpen]);
 
   const ModalComponent = modals[modal];
+
+  const setModal = (modalKey) => {
+    setOpen(true);
+    setModalComponent(modalKey);
+  };
 
   return (
     <ModalContext.Provider value={{ unSetModal, setModal }}>
       {children}
-      {modal && <ModalComponent unSetModal={unSetModal} />}
+      {modal && <ModalComponent open={open} unSetModal={unSetModal} />}
     </ModalContext.Provider>
   );
 };
