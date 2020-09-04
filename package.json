@@ -13,7 +13,7 @@
     "@welldone-software/why-did-you-render": "^4.2.1",
     "classnames": "^2.2.6",
     "lodash.debounce": "^4.0.8",
-    "react": "0.0.0-experimental-e5d06e34b",
+    "react": "0.14.0",
     "react-dom": "0.0.0-experimental-e5d06e34b",
     "react-query": "^1.5.1",
     "react-router-dom": "^5.1.2",
